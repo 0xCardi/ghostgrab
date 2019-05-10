@@ -4,7 +4,7 @@
   "description": "soulseek client for the web",
   "main": "index.js",
   "scripts": {
-    "run": "node src/app.js",
+    "start": "node src/app.js",
     "build-dev": "cross-env browserify -g envify -p [ vueify/plugins/extract-css -o res/build.css ] -e browser/main.js -o res/main.js",
     "build": "npm run build-dev && uglifyjs -c warnings=false -m < res/main.js > res/build.js"
   },
@@ -39,7 +39,9 @@
     "azlyrics": "^2.0.0",
     "bole": "^3.0.2",
     "bookshelf": "^0.14.2",
+    "busboy": "^0.3.1",
     "client-sessions": "^0.8.0",
+    "csrf": "^3.1.0",
     "discojs": "^1.1.0",
     "env-paths": "^2.2.0",
     "get-artist-title": "^1.1.1",
@@ -50,7 +52,8 @@
     "sqlite3": "^4.0.7",
     "tcp-bind": "^1.2.0",
     "vue": "^2.6.10",
-    "vuetify": "^1.5.14"
+    "vuetify": "^1.5.14",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
