@@ -2,12 +2,6 @@
 
 exports.up = (knex, Promise) => {
     return Promise.all([
-        knex.schema.createTable('users', table => {
-            table.increments('id').unsigned().primary();
-            table.string('username');
-            table.string('password');
-            table.json('config');
-        }),
         knex.schema.createTable('library', table => {
             table.increments('id').unsigned().primary();
             table.string('path');
@@ -70,10 +64,11 @@ exports.up = (knex, Promise) => {
             // null because we can't know where they put it.
             table.string('path_to');
             table.bigInteger('size');
+            table.bigInteger('total_size');
             table.timestamp('created_at').defaultTo(knex.fn.now());
             // by storing both when we started and when it finishes, we can
             // also calculate a transfer speed.
-            table.timestamp('finished_at').defaultTo(knex.fn.now());
+            table.timestamp('updated_at').defaultTo(knex.fn.now());
         }),
         // this stores message history for chatrooms and private messages
         knex.schema.createTable('messages', table => {
@@ -86,6 +81,12 @@ exports.up = (knex, Promise) => {
             table.string('to').index();
             table.text('message');
             table.timestamp('created_at').defaultTo(knex.fn.now());
+        }),
+        knex.schema.createTable('search_history', table => {
+            table.increments('id').unsigned().primary();
+            table.string('query');
+            table.string('type'); // all, album, artist, track, soulseek
+            table.timestamp('created_at').defaultTo(knex.fn.now());
         })
     ]);
 };
@@ -94,6 +95,6 @@ exports.down = (knex, Promise) => {
     return Promise.all([
         'library', 'library_genres', 'library_listens', 'data_artists',
         'data_albums', 'data_albums_genres', 'data_tracks', 'transfers',
-        'messages',
+        'messages', 'search_history'
     ].map(table => knex.schema.dropTableIfExists(table)));
 };
