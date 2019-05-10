@@ -1,11 +1,14 @@
 const bodyParser = require('body-parser');
 const getConfig = require('../lib/get-config');
 const slowDown = require("express-slow-down");
+const attachIndexHtml = require('./index-html');
 
 module.exports = app => {
     const config = getConfig();
 
-    app.get('/search', (req, res) => {
+    attachIndexHtml(app);
+
+    app.post('/search', (req, res) => {
         console.log(req);
         res.end('');
     });

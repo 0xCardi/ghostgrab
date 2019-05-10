@@ -5,18 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "build-css": "cd res && cp ../node_modules/vuetify/dist/vuetify.css && cat *.css > build.css",
-    "build-dev": "cross-env browserify -g envify -p [ vueify/plugins/extract-css -o res/main.css ] -e browser/main.js -o res/main.js && npm run build-css",
-    "build": "npm run build-dev && uglifyjs -c warnings=false -m < res/main.js > res/build.js"
+    "watchify": "watchify -vd -p browserify-hmr -e browser/main.js -o res/build.js",
+    "build-css": "cd res && cp ../node_modules/vuetify/dist/vuetify.css . && cat *.css > build.css",
+    "build-dev": "cross-env browserify -g envify -p [ vueify/plugins/extract-css -o res/main.css ] -e browser/main.js -o res/build.js && npm run build-css",
+    "build": "npm run build-dev && uglifyjs -c warnings=false -m < res/build.js > res/build.min.js",
+    "start-dev": "npm-run-all --parallel watchify start"
   },
   "browserify": {
     "transform": [
       "babelify",
       "vueify"
     ]
-  },
-  "browser": {
-    "vue": "vue/dist/vue.common.js"
   },
   "repository": {
     "type": "git",
@@ -55,10 +54,7 @@
     "mkdirp": "^0.5.1",
     "sqlite3": "^4.0.7",
     "staticify": "^3.3.2",
-    "tcp-bind": "^1.2.0",
-    "vue": "^2.6.10",
-    "vuetify": "^1.5.14",
-    "vuex": "^3.1.1"
+    "tcp-bind": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -72,8 +68,14 @@
     "cross-env": "^2.0.0",
     "envify": "^3.4.1",
     "garnish": "^5.2.0",
+    "npm-run-all": "^2.3.0",
     "proxyquireify": "^3.0.1",
     "uglify-js": "^2.5.0",
-    "vueify": "^9.0.0"
+    "vue": "^2.6.10",
+    "vueify": "^9.0.0",
+    "vuetify": "^1.5.14",
+    "vuex": "^3.1.1",
+    "watchify": "^3.4.0",
+    "xhr": "^2.5.0"
   }
 }
