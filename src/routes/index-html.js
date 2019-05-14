@@ -13,7 +13,7 @@ module.exports = app => {
 
     const indexHtml = `
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="en" style="overflow-y:auto;">
             <head>
                 <meta charset="utf-8">
                 <meta name="description" content="${pkg.description}">
@@ -28,6 +28,7 @@ module.exports = app => {
         </html>`.replace(/    /g, '').replace(/\n/g, '');
 
     app.get(['/', '/index.html', '/index.htm'], (req, res) => {
+        res.set('Content-Type', 'text/html');
         res.end(indexHtml);
     });
 };

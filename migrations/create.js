@@ -6,8 +6,9 @@ exports.up = (knex, Promise) => {
             table.increments('id').unsigned().primary();
             table.string('path');
             table.bigInteger('size');
-            table.string('artist');
-            table.string('album');
+            table.string('track_name');
+            table.string('artist_name');
+            table.string('album_name');
             table.integer('position');
             table.integer('year');
             table.integer('duration');
@@ -31,7 +32,7 @@ exports.up = (knex, Promise) => {
         // results from a meta data source with information about artists
         knex.schema.createTable('data_artists', table => {
             table.increments('id').unsigned().primary();
-            table.string('artist_name');
+            table.string('name');
             // if the artist only has one member, members will contain their
             // "real name" (e.g. Beck -> [ "Beck Hansen" ]
             table.json('members');
@@ -42,6 +43,7 @@ exports.up = (knex, Promise) => {
         knex.schema.createTable('data_albums', table => {
             table.increments('id').unsigned().primary();
             table.string('name');
+            table.text('description');
             table.integer('track_count');
         }),
         knex.schema.createTable('data_albums_genres', table => {
@@ -52,6 +54,22 @@ exports.up = (knex, Promise) => {
         }),
         knex.schema.createTable('data_tracks', table => {
             table.increments('id').unsigned().primary();
+            table.integer('data_artist_id').unsigned().references('id')
+                .inTable('data_artists').index();
+            table.integer('data_album_id').unsigned().references('id')
+                .inTable('data_albums').index();
+            table.string('name');
+            table.string('artist_name');
+            table.string('album_name');
+            table.integer('duration');
+        }),
+        knex.schema.createTable('data_track_lyrics', table => {
+            table.increments('id').unsigned().primary();
+            table.integer('data_artist_id').unsigned().references('id')
+                .inTable('data_artists').index();
+            table.integer('data_album_id').unsigned().references('id')
+                .inTable('data_albums').index();
+
         }),
         knex.schema.createTable('transfers', table => {
             table.increments('id').unsigned().primary();

@@ -1,3 +1,24 @@
+.gg-status-badge .v-badge__badge {
+  transform: scale(0.6);
+}
+
+.gg-emojicon {
+  font-size: 24px;
+}
+
+.gg-header-img {
+  margin-left: 8px;
+  margin-right: -8px;
+  min-width: 48px;
+}
+
+.navigation-drawer--mini-variant {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+b[data-v-471bf134] {
+  font-weight: 1000;
+}
 #hello[data-v-50465556] {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

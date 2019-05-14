@@ -25,9 +25,9 @@ const log = bole(pkg.name);
 try {
     mkdirp.sync(paths.config);
     mkdirp.sync(paths.data);
-    mkdirp.sync(paths.cache + '/artist-img');
-    mkdirp.sync(paths.cache + '/album-img');
-    mkdirp.sync(paths.cache + '/avatars');
+    mkdirp.sync(paths.cache + '/images/albums');
+    mkdirp.sync(paths.cache + '/images/artists');
+    mkdirp.sync(paths.cache + '/images/avatars');
 } catch (e) {
     // most likely permission issue
     log.error(e);
@@ -56,7 +56,7 @@ db.migrate.latest().asCallback((err) => {
     log.info('database is migrated to latest schemas');
 });
 
-db.on('query', query => log.info('query: ', query.sql, query.bindings))
+db.on('query', query => log.info('query:', query.sql, query.bindings))
 
 const app = express();
 app.use((req, res, next) => {
@@ -97,7 +97,7 @@ let httpPort = +process.argv[2];
 httpPort = isNaN(httpPort) ? 3333 : httpPort;
 
 const server = app.listen(httpPort, () => {
-    log.info(`http server listening on ${httpPort}`);
+    log.info(`http server listening at http;//localhost:${httpPort}`);
 });
 
 server.on('error', err => log.error('http', err));

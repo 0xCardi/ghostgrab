@@ -1,11 +1,9 @@
 const bodyParser = require('body-parser');
-const getConfig = require('../lib/get-config');
-const slowDown = require("express-slow-down");
+const config = require('../lib/config');
+const slowDown = require('express-slow-down');
 const attachIndexHtml = require('./index-html');
 
 module.exports = app => {
-    const config = getConfig();
-
     attachIndexHtml(app);
 
     app.post('/search', (req, res) => {
@@ -22,10 +20,11 @@ module.exports = app => {
     });
 
     app.post('/login', loginLimiter, bodyParse, (req, res) => {
-        const isPassSet = !!config.password.length;
+        const conf = config.get();
+        const isPassSet = !!conf.password.length;
 
-        if (req.body.username === config.username &&
-            (!isPassSet || req.body.password === config.password)) {
+        if (req.body.username === conf.username &&
+            (!isPassSet || req.body.password === conf.password)) {
             res.json(true);
         } else {
             res.json(false);
