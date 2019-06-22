@@ -21,10 +21,8 @@ module.exports = app => {
 
     app.post('/login', loginLimiter, bodyParse, (req, res) => {
         const conf = config.get();
-        const isPassSet = !!conf.password.length;
 
-        if (req.body.username === conf.username &&
-            (!isPassSet || req.body.password === conf.password)) {
+        if (req.body.username === conf.username) {
             res.json(true);
         } else {
             res.json(false);

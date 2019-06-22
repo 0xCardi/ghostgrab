@@ -3,14 +3,17 @@
 const attachRoutes = require('./routes');
 const bole = require('bole');
 const compression = require('compression');
+const csurf = require('csurf');
 const envPaths = require('env-paths');
 const express = require('express');
 const fs = require('fs');
+const http = require('http');
 const knex = require('knex');
 const mkdirp = require('mkdirp');
 const os = require('os');
 const sessionSecret = require('./lib/session-secret');
 const sessions = require('client-sessions');
+const sharedSession = require('express-socket.io-session');
 const tcpBind = require('tcp-bind');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
@@ -31,6 +34,7 @@ try {
 } catch (e) {
     // most likely permission issue
     log.error(e);
+    process.exit(1);
 }
 
 const KNEX_PATH = paths.config + '/knexfile.json';
@@ -56,7 +60,7 @@ db.migrate.latest().asCallback((err) => {
     log.info('database is migrated to latest schemas');
 });
 
-db.on('query', query => log.info('query:', query.sql, query.bindings))
+db.on('query', query => log.info('query:', query.sql, query.bindings));
 
 const app = express();
 app.use((req, res, next) => {
@@ -78,11 +82,13 @@ app.use(compression());
 const staticify = require('staticify')('./res');
 app.use(staticify.middleware);
 
-app.use(sessions({
+const session = sessions({
     cookieName: 'session',
     secret: sessionSecret(),
     duration: ONE_DAY * 30
-}));
+});
+
+app.use(session);
 
 app.set('staticify', staticify);
 app.set('db', db);
@@ -96,8 +102,16 @@ app.use((req, res) => {
 let httpPort = +process.argv[2];
 httpPort = isNaN(httpPort) ? 3333 : httpPort;
 
-const server = app.listen(httpPort, () => {
-    log.info(`http server listening at http;//localhost:${httpPort}`);
+const server = http.Server(app);
+server.on('error', err => log.error('http', err));
+
+const io = require('socket.io')(server);
+io.on('error', err => log.error('socket.io', err));
+
+io.on('connection', socket => {
+    log.info('user connected to socketio');
 });
 
-server.on('error', err => log.error('http', err));
+server.listen(httpPort, () => {
+    log.info(`http server listening at http://localhost:${httpPort}`);
+});

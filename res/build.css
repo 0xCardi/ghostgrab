@@ -4341,18 +4341,9 @@ readers do not read off random characters that represent icons */
   font-size: 24px;
 }
 
-.gg-header-img {
-  margin-left: 8px;
-  margin-right: -8px;
-  min-width: 48px;
-}
-
-.navigation-drawer--mini-variant {
+.v-navigation-drawer--mini-variant {
   overflow-x: hidden;
   overflow-y: auto;
-}
-b[data-v-471bf134] {
-  font-weight: 1000;
 }
 #hello[data-v-50465556] {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -4379,6 +4370,15 @@ li[data-v-50465556] {
 
 a[data-v-50465556] {
   color: #42b983;
+}
+b[data-v-80b4c58e] {
+  font-weight: 1000;
+}
+
+.gg-header-img[data-v-80b4c58e] {
+  margin-left: 8px;
+  margin-right: -8px;
+  min-width: 48px;
 }@-webkit-keyframes shake {
   59% {
     margin-left: 0;
