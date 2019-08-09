@@ -4,19 +4,9 @@
   "description": "soulseek client for the web",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "watchify": "watchify -vd -p browserify-hmr -e browser/main.js -o res/build.js",
-    "build-css": "cd res && rm build.css && cat *.css > build.css",
-    "build-dev": "cross-env browserify -g envify -p [ vueify/plugins/extract-css -o res/main.css ] -e browser/main.js -o res/build.js && npm run build-css",
-    "build": "npm run build-dev && uglifyjs -c warnings=false -m < res/build.js > res/build.min.js",
-    "start-dev": "npm-run-all --parallel watchify start"
+    "start": "node src/app.js"
   },
-  "browserify": {
-    "transform": [
-      "babelify",
-      "vueify"
-    ]
-  },
+  "browserify": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/misterhat/ghostgrab.git"
@@ -41,7 +31,6 @@
     "busboy": "^0.3.1",
     "client-sessions": "^0.8.0",
     "compression": "^1.7.4",
-    "connect": "^3.6.6",
     "csrf": "^3.1.0",
     "csurf": "^1.10.0",
     "discojs": "^1.1.0",
@@ -57,31 +46,7 @@
     "socket.io": "^2.2.0",
     "sqlite3": "^4.0.7",
     "staticify": "^3.3.2",
-    "tcp-bind": "^1.2.0",
-    "vue-router": "^3.0.6",
-    "vue-socket.io": "^3.0.7"
+    "tcp-bind": "^1.2.0"
   },
-  "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.2",
-    "babel-core": "^6.0.0",
-    "babel-plugin-transform-runtime": "^6.0.0",
-    "babel-preset-es2015": "^6.0.0",
-    "babel-preset-stage-2": "^6.0.0",
-    "babel-runtime": "^6.0.0",
-    "babelify": "^7.2.0",
-    "browserify": "^13.1.0",
-    "browserify-hmr": "^0.3.1",
-    "cross-env": "^2.0.0",
-    "envify": "^3.4.1",
-    "garnish": "^5.2.0",
-    "npm-run-all": "^2.3.0",
-    "proxyquireify": "^3.0.1",
-    "uglify-js": "^2.5.0",
-    "vue": "^2.6.10",
-    "vueify": "^9.0.0",
-    "vuetify": "^1.5.14",
-    "vuex": "^3.1.1",
-    "watchify": "^3.4.0",
-    "xhr": "^2.5.0"
-  }
+  "devDependencies": {}
 }
